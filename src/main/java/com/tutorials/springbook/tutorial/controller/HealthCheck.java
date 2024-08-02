@@ -1,4 +1,4 @@
-package com.tutorials.springbook.tutorial.controllers;
+package com.tutorials.springbook.tutorial.controller;
 
 
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class HealthCheck {
 
     @GetMapping("/health-check")
