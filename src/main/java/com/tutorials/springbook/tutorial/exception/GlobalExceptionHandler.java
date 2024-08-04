@@ -1,17 +1,11 @@
 package com.tutorials.springbook.tutorial.exception;
 
 import com.tutorials.springbook.tutorial.constants.ExceptionConstant;
-import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.servlet.ServletException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -34,32 +28,23 @@ public class GlobalExceptionHandler {
         return apiError;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiError handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
-        ApiError apiError = new ApiError();
-        List<String> allErrors = new ArrayList<>();
-        apiError.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            allErrors.add(error.getDefaultMessage());
-        });
 
-        apiError.setErrors(allErrors);
-
-        return apiError;
-    }
-
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(RuntimeException.class)
-    public ApiError handleRuntimeException(RuntimeException ex){
-        ApiError apiError = new ApiError();
-        apiError.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        apiError.setErrors(List.of(ex.getLocalizedMessage()));
-
-        ex.printStackTrace();
-
-        return apiError;
-    }
+//
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(RuntimeException.class)
+//    public ApiError handleRuntimeException(RuntimeException ex){
+//        ApiError apiError = new ApiError();
+//
+//        if(ex instanceof io.jsonwebtoken.ExpiredJwtException){
+//            apiError.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+//            apiError.setErrors(List.of("expired jwt token"));
+//
+//        }else {
+//            apiError.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            apiError.setErrors(List.of(ex.getLocalizedMessage()));
+//            ex.printStackTrace();
+//        }
+//        return apiError;
+//    }
 
 }
