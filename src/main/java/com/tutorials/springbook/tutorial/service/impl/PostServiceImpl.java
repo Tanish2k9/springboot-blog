@@ -1,8 +1,8 @@
 package com.tutorials.springbook.tutorial.service.impl;
 
 import com.tutorials.springbook.tutorial.constants.ApiResponseConstant;
-import com.tutorials.springbook.tutorial.dto.PostRequestDto;
-import com.tutorials.springbook.tutorial.dto.PostResponseDto;
+import com.tutorials.springbook.tutorial.dto.post.PostRequestDto;
+import com.tutorials.springbook.tutorial.dto.post.PostResponseDto;
 import com.tutorials.springbook.tutorial.entity.Post;
 import com.tutorials.springbook.tutorial.entity.User;
 import com.tutorials.springbook.tutorial.mapper.PostMapper;
@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -50,4 +50,22 @@ public class PostServiceImpl implements PostService {
 
         return response;
     }
+
+    @Override
+    @Transactional
+    public ApiResponse<List<PostResponseDto>> getAllPosts() {
+
+        List<PostResponseDto> posts = postRepository.findAll().stream().map((post)->{
+            return postMapper.convertPostToPostResponseDto(post);
+        }).collect(Collectors.toList());
+
+
+        return ApiResponse.<List<PostResponseDto>>builder()
+                .data(posts)
+                .message("posts fetched sucessfully")
+                .statusCode(HttpStatus.OK.value())
+                .build();
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.tutorials.springbook.tutorial.dto;
+package com.tutorials.springbook.tutorial.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

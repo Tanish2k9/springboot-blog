@@ -1,6 +1,7 @@
 package com.tutorials.springbook.tutorial.mapper;
 
-import com.tutorials.springbook.tutorial.dto.RegisterUserDto;
+import com.tutorials.springbook.tutorial.dto.auth.RegisterRequestDto;
+import com.tutorials.springbook.tutorial.dto.auth.RegisterResponseDto;
 import com.tutorials.springbook.tutorial.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -8,13 +9,20 @@ import org.springframework.stereotype.Component;
 public class AuthMapper {
 
 
-    public User RegisterDtoMapToUser(RegisterUserDto dto){
+    public User RegisterDtoMapToUser(RegisterRequestDto dto){
 
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
-        user.setPhoneNumber(dto.getPhoneNumber());
-
         return user;
+    }
+
+    public RegisterResponseDto UserMapToRegisterResponseDto(User user){
+        return RegisterResponseDto.builder()
+                .email(user.getEmail())
+                .id(user.getId())
+                .posts(user.getPosts())
+                .role(user.getRole())
+                .build();
     }
 }

@@ -2,9 +2,12 @@ package com.tutorials.springbook.tutorial.exception;
 
 import com.tutorials.springbook.tutorial.constants.ExceptionConstant;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
@@ -25,6 +28,32 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError();
         apiError.setStatusCode(HttpStatus.BAD_REQUEST.value());
         apiError.setErrors(List.of(ex.getMessage()));
+        return apiError;
+    }
+
+    public ApiError handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+        ApiError apiError = new ApiError();
+        List<String> allErrors = new ArrayList<>();
+        apiError.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            allErrors.add(error.getDefaultMessage());
+        });
+
+        apiError.setErrors(allErrors);
+
+        return apiError;
+    }
+
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(RuntimeException.class)
+    public ApiError handleRuntimeException(RuntimeException ex){
+        ApiError apiError = new ApiError();
+        apiError.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        apiError.setErrors(List.of(ex.getLocalizedMessage()));
+
+        ex.printStackTrace();
+
         return apiError;
     }
 

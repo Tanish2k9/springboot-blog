@@ -1,9 +1,5 @@
-package com.tutorials.springbook.tutorial.dto;
+package com.tutorials.springbook.tutorial.dto.auth;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,13 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegisterUserDto {
+public class RegisterRequestDto {
 
     @NotBlank(message = "Email is required")
     private String email;
-
-    private String phoneNumber;
-
     @NotBlank(message = "Password is required")
     private String password;
 

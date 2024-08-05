@@ -1,9 +1,12 @@
 package com.tutorials.springbook.tutorial.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -27,12 +31,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Email is required")
     @Column(unique = true)
     private String email;
-
-    private String phoneNumber;
-
     @NotBlank(message = "Password is required")
     private String password;
-
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -40,13 +40,7 @@ public class User implements UserDetails {
 
     private List<Post> posts = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Booking> bookings = new ArrayList<>();
-
-
-
     @Override
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }

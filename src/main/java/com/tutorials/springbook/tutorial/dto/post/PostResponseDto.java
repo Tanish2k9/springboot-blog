@@ -1,20 +1,24 @@
-package com.tutorials.springbook.tutorial.dto;
+package com.tutorials.springbook.tutorial.dto.post;
 
+
+import com.tutorials.springbook.tutorial.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostRequestDto {
+@Builder
+public class PostResponseDto {
 
-    @NotBlank(message = "title is required")
+    private Integer id;
     private String title;
-    @NotBlank(message = "description is required")
+
     private String description;
 
     private String imageUrl;
-
+    private UserDtoFroPost user;
 }
