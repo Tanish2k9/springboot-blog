@@ -23,6 +23,7 @@ public class PostMapper {
         postResponseDto.setTitle(post.getTitle());
         postResponseDto.setImageUrl(post.getImageUrl());
         postResponseDto.setId(post.getId());
+
         postResponseDto.setUser(UserDtoFroPost.builder()
                 .email(post.getUser().getEmail())
                 .id(post.getUser().getId())
